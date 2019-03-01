@@ -1,3 +1,4 @@
+import Chapter3.Tree.{Branch, Leaf}
 import org.scalatest.{Matchers, WordSpec}
 import Chapter3._
 
@@ -108,6 +109,37 @@ class Chapter3Test extends WordSpec with Matchers {
       val list1 = List(1, 2, 3, 4)
       val list2 = List(1, 2, 3, 4)
       List.zipWith(list1, list2)(_ + _) should be(List(2, 4, 6, 8))
+    }
+
+    "3.25 Tree.size" in {
+      val t = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Branch(Leaf(4), Branch(Leaf(5), Branch(Leaf(6), Leaf(7))))))
+      Tree.size(t) should be(13)
+    }
+
+    "3.26 Tree.maximum" in {
+      val t = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Branch(Leaf(4), Branch(Leaf(5), Branch(Leaf(4), Leaf(3))))))
+      Tree.maximum(t) should be(5)
+    }
+
+    "3.27 Tree.depth" in {
+      val t = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Branch(Leaf(4), Branch(Leaf(5), Branch(Leaf(6), Leaf(7))))))
+      Tree.depth(t) should be(5)
+    }
+
+    "3.28 Tree.map" in {
+      val t = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Leaf(4)))
+      Tree.map(t)(_ + 10) should be(Branch(Branch(Leaf(11), Leaf(12)), Branch(Leaf(13), Leaf(14))))
+    }
+
+    "3.29 Tree.fold" in {
+      val t = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Leaf(4)))
+      Tree.mapWithFold(t)(_ + 10) should be(Branch(Branch(Leaf(11), Leaf(12)), Branch(Leaf(13), Leaf(14))))
+
+      val t2 = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Branch(Leaf(4), Branch(Leaf(5), Branch(Leaf(6), Leaf(7))))))
+      Tree.depthWithFold(t2) should be(5)
+
+      val t3 = Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Branch(Leaf(4), Branch(Leaf(5), Branch(Leaf(6), Leaf(7))))))
+      Tree.sizeWithFold(t3) should be(13)
     }
   }
 }
